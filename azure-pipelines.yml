@@ -4,9 +4,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 steps:
-- task: Npm@1
-  inputs:
-    command: 'install'
 - task: ArtifactoryNpm@2
   inputs:
     command: 'install'
@@ -14,5 +11,14 @@ steps:
     sourceRepo: 'npm'
     collectBuildInfo: true
     threads: '1'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+- task: ArtifactoryNpm@2
+  inputs:
+    command: 'ci'
+    artifactoryService: 'SaaS instance'
+    sourceRepo: 'npm'
+    collectBuildInfo: true
+    threads: '10'
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
